@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, director, math} from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, director, math, RigidBody, Collider} from 'cc';
 const { ccclass, property } = _decorator;
 
 
@@ -32,6 +32,14 @@ export class EnemyControl extends Component {
         this._coldDown -= deltaTime
         // 检测时间到，且上一波敌人机器销毁
         console.log("this._enemy.length: ", this._enemy.length);
+        for (let i=0; i<this._enemy.length; i++){
+            if (this._enemy[i].isValid){
+                break;
+            }
+            if (i == this._enemy.length - 1){
+                this._enemy = []
+            }
+        }
         if(this._coldDown <= 0 && this._enemy.length <= 0){
             let rand = Math.random()
             let sum = 0;

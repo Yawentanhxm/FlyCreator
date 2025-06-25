@@ -1,4 +1,4 @@
-import { _decorator, input, Input, Component, Node, math, EventKeyboard, KeyCode, Prefab, instantiate, director } from 'cc';
+import { _decorator, input, Collider, ITriggerEvent, RigidBody, Input, Component, Node, math, EventKeyboard, KeyCode, Prefab, instantiate, director } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerControl')
@@ -13,18 +13,28 @@ export class PlayerControl extends Component {
     private _UP_BOUND = -40.195;
     private _DOWN_BOUND = 47.6;
     private _coldDown = 0.3;
+    private _bulletType = 1<<2;
+    private _plantType = 1<<4;
     onLoad(): void {
         input.on(Input.EventType.KEY_DOWN, this.onKeyEvent, this);
         input.on(Input.EventType.KEY_UP, this.onKeyRelease, this);
+        const collider = this.getComponent(Collider);
+        collider.on('onTriggerEnter', this.onTriggerEnter, this);
     }
     protected onDestroy(): void {
         input.off(Input.EventType.KEY_DOWN, this.onKeyEvent, this);
         input.off(Input.EventType.KEY_UP, this.onKeyRelease, this);
     }
     start() {
-        
+        this.node.getComponent(RigidBody).group = this._plantType;
     }
-
+    private onTriggerEnter(event: ITriggerEvent) {
+        console.log('Player attacked')
+        //1. 获取碰撞的节点
+        // const other = event.otherCollider.node;
+        //3. 销毁
+        // this.node.destroy()
+    }
 
     update(deltaTime: number) {
         //1. 获取用户输入。 
@@ -41,6 +51,9 @@ export class PlayerControl extends Component {
             let node = instantiate(this.bullet)
             node.parent = director.getScene()
             node.setPosition(this.node.getPosition())
+            
+            let rb = node.getComponent(RigidBody)
+            rb.group = this._bulletType
             console.log("发射子弹")
             this._coldDown = 0.3
         }

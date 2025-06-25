@@ -1,3 +1,30 @@
 {
-  "__version__": "1.0.6"
+  "__version__": "1.0.6",
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "EnemyBullet"
+      },
+      {
+        "index": 2,
+        "name": "PlayerBullet"
+      },
+      {
+        "index": 3,
+        "name": "EnemyPlane"
+      },
+      {
+        "index": 4,
+        "name": "PlayerPlane"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 29,
+      "1": 16,
+      "2": 9,
+      "3": 21,
+      "4": 11
+    }
+  }
 }
