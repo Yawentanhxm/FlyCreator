@@ -677,7 +677,7 @@
     "_enabled": true,
     "__prefab": null,
     "_group": 16,
-    "_type": 1,
+    "_type": 4,
     "_mass": 0.0001,
     "_allowSleep": true,
     "_linearDamping": 0.1,
@@ -707,7 +707,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 44.706,
+      "x": 44.70600128173828,
       "y": 0,
       "z": 0
     }

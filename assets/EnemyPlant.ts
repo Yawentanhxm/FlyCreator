@@ -1,4 +1,5 @@
 import { _decorator, Collider, ITriggerEvent,  Component,director,instantiate, math, Node, Prefab, RigidBody } from 'cc';
+import { Constant } from './const';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemyPlant')
@@ -46,7 +47,11 @@ export class EnemyPlant extends Component {
             node.parent = director.getScene()
             let rb = node.getComponent(RigidBody) 
             // setGroup需要在onLoad后调用，即需要在放置到场景之后调用
+            // 坑点，设置好group后，不会手动继承collision matrix，需要手动设置掩码
             rb.group = this._bulletType
+            // Use bitwise shift to correctly represent collision groups
+            // Allow collision with PlayerPlane (group 0)
+            rb.setMask(Constant.CollisionType.EnemyBullet);
             node.setPosition(this.node.getPosition())
             console.log("发射子弹")
             this._coldDown = 0.3

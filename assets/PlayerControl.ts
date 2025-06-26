@@ -1,4 +1,5 @@
 import { _decorator, input, Collider, ITriggerEvent, RigidBody, Input, Component, Node, math, EventKeyboard, KeyCode, Prefab, instantiate, director } from 'cc';
+import { Constant } from './const'
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerControl')
@@ -26,7 +27,6 @@ export class PlayerControl extends Component {
         input.off(Input.EventType.KEY_UP, this.onKeyRelease, this);
     }
     start() {
-        this.node.getComponent(RigidBody).group = this._plantType;
     }
     private onTriggerEnter(event: ITriggerEvent) {
         console.log('Player attacked')
@@ -53,8 +53,9 @@ export class PlayerControl extends Component {
             node.setPosition(this.node.getPosition())
             
             let rb = node.getComponent(RigidBody)
-            rb.group = this._bulletType
-            console.log("发射子弹")
+            rb.group = Constant.CollisionType.PlayerBullet
+            rb.setMask(Constant.CollisionType.EnemyPlane)
+            console.log("发射子弹 mask:" + rb.getMask())
             this._coldDown = 0.3
         }
     }
